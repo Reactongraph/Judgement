@@ -11,6 +11,8 @@ global.Joi = require('joi');
 
 //Routes files
 const user = require('./routes/user');
+const question = require('./routes/question');
+const urls = require('./routes/urls');
 
 var app = express();
 
@@ -43,6 +45,8 @@ app.use(function (req, res, next) {
 
 // Application Routes 
 app.use('/api/user', user);
+app.use('/api/question', question);
+app.use('/urls', urls);
 
 app.options('/*', cors()) // enable pre-flight request for DELETE request
 // error handler

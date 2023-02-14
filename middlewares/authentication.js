@@ -21,27 +21,11 @@ const validateUser = async (req, res, next) => {
             const err = response.error_msg.invalidToken;
             res.status(err.statusCode).send(err.message);
         }
-        req.user.profilePic = userData.profilePic;
-        req.user.name = userData.name;
+        req.user.syncContacts = userData.syncContacts;
+        req.user.userName = userData.userName;
+        req.user.userContacts = userData.userContacts;
         next();
       }
-    } catch (error) {
-        const err = response.error_msg.invalidToken;
-        res.status(err.statusCode).send(err.message);
-    }
-};
-
-/**
- * Validate guest user token fetched from headers
- * if not valid token then send http 401 status
- * @param payload {Object}
- */
-const validateGuestUser = (req, res, next) => {
-    try {
-      const token = getTokenFromHeaders(req.headers);
-      const decoded = Jwt.verify(token, privateKey);
-      req.user = decoded;
-      next();
     } catch (error) {
         const err = response.error_msg.invalidToken;
         res.status(err.statusCode).send(err.message);
@@ -59,5 +43,4 @@ const getTokenFromHeaders = headers => {
 
 module.exports = {
     validateUser: validateUser,
-    validateGuestUser: validateGuestUser
 }
