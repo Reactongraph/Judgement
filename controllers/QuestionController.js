@@ -13,7 +13,7 @@ const commonController = require("../helpers/common");
 const questionModel = require("../models/questions");
 const Response = require('../config/response');
 
-const createQuestion = async (payloadData, fileData) => {
+const createQuestion = async (payloadData, userData) => {
   try {
     const schema = Joi.object().keys({
       text: Joi.string().required().max(100),
@@ -21,11 +21,12 @@ const createQuestion = async (payloadData, fileData) => {
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     
-    if (fileData &&  fileData.images && fileData.images.length) {
-        for (const media in fileData.images) {
-            await uploadMedia(media)
-          }
-    }
+    payload.userId = userData.id;
+    // if (fileData &&  fileData.images && fileData.images.length) {
+    //     for (const media in fileData.images) {
+    //         await uploadMedia(media)
+    //       }
+    // }
     const question = await questionModel.create(payload);
     return question;
   } catch (err) {

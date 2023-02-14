@@ -8,7 +8,7 @@ var multipartMiddleware = multipart();
 
 /* Create Question*/
 router.post("/", authentication, (req, res) => {
-    QuestionController.createQuestion(req.body)
+    QuestionController.createQuestion(req.body, req.user)
     .then((data) => {
       sendResponse.sendSuccessMessage("success", data, res);
     })

@@ -3,8 +3,8 @@ const path = require('path');
 const globalConstants = {
   LOCALURL: 'http://localhost:3000',
   LOCALASSERTURL: 'http://localhost:3000/public/',
-  DEVURL: 'http://ec2-44-201-37-190.compute-1.amazonaws.com:3000/',
-  DEVASSERTURL: 'http://ec2-44-201-37-190.compute-1.amazonaws.com:3000/public/',
+  DEVURL: 'https://ec2-44-201-37-190.compute-1.amazonaws.com:3000/',
+  DEVASSERTURL: 'https://ec2-44-201-37-190.compute-1.amazonaws.com:3000/public/',
   PRODURL: '',
   PRODASSERTURL: '',
   MONGO_PORT: process.env.MONGO_PORT || 27017,
