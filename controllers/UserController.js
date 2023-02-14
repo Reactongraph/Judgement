@@ -11,9 +11,9 @@ const Response = require('../config/response');
 const register = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      userName: Joi.string().required().max(30),
-      phone: Joi.string().required().max(10),
-      password: Joi.string().required().max(30),
+      userName: Joi.string().required().max(6).max(30),
+      phone: Joi.string().required().min(10).max(10),
+      password: Joi.string().required().min(6).max(30),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     let userData = await userModel.findOne({ userName: payload.userName });

@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Jwt = require("jsonwebtoken");
 const fs = require("fs");
 const env = require("../config/env")();
-const AWS = require("aws-sdk");
-const s3 = new AWS.S3({
-  accessKeyId: env.S3DETAILS.secretAccessKey,
-  secretAccessKey: env.S3DETAILS.accessKeyId,
-  region: env.S3DETAILS.awsRegion,
-});
+// const AWS = require("aws-sdk");
+// const s3 = new AWS.S3({
+//   accessKeyId: env.S3DETAILS.secretAccessKey,
+//   secretAccessKey: env.S3DETAILS.accessKeyId,
+//   region: env.S3DETAILS.awsRegion,
+// });
 
 const commonController = require("../helpers/common");
 const questionModel = require("../models/questions");
