@@ -6,7 +6,7 @@ module.exports = () => {
 
     case 'staging':
       return {
-        PORT: 3000,
+        PORT: 3001,
         SITEURL: constants.DEVURL,
         MONGO_HOST: process.env.MONGO_HOST || `localhost:${constants.MONGO_PORT}`,
         MONGO_PORT: process.env.MONGO_PORT || constants.MONGO_PORT,

@@ -3,7 +3,7 @@ const path = require('path');
 const globalConstants = {
   LOCALURL: 'http://localhost:3000',
   LOCALASSERTURL: 'http://localhost:3000/public/',
-  DEVURL: 'https://ec2-44-201-37-190.compute-1.amazonaws.com:3000/',
+  DEVURL: 'https://ec2-44-201-37-190.compute-1.amazonaws.com:3000',
   DEVASSERTURL: 'https://ec2-44-201-37-190.compute-1.amazonaws.com:3000/public/',
   PRODURL: '',
   PRODASSERTURL: '',
