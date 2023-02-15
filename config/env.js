@@ -6,7 +6,7 @@ module.exports = () => {
 
     case 'staging':
       return {
-        PORT: 3001,
+        PORT: 3000,
         SITEURL: constants.DEVURL,
         MONGO_HOST: process.env.MONGO_HOST || `localhost:${constants.MONGO_PORT}`,
         MONGO_PORT: process.env.MONGO_PORT || constants.MONGO_PORT,
@@ -16,6 +16,9 @@ module.exports = () => {
         EXPIRY: constants.key.tokenExpiry,
         S3DETAILS: constants.s3Details.DEV,
         FCM_SERVER_KEY: constants.FCM.SERVERKEY,
+        TWILIO_ACCOUNT_SID: constants.TWILIO.ACCOUNT_SID,
+        TWILIO_AUTH_TOKEN: constants.TWILIO.AUTH_TOKEN,
+        TWILIO_PHONE_NUMBER: constants.TWILIO.PHONE_NUMBER,
       };
 
     case 'production':
@@ -30,6 +33,9 @@ module.exports = () => {
         EXPIRY: constants.key.tokenExpiry,
         S3DETAILS: constants.s3Details.PROD,
         FCM_SERVER_KEY: constants.FCM.SERVERKEY,
+        TWILIO_ACCOUNT_SID: constants.TWILIO.ACCOUNT_SID,
+        TWILIO_AUTH_TOKEN: constants.TWILIO.AUTH_TOKEN,
+        TWILIO_PHONE_NUMBER: constants.TWILIO.PHONE_NUMBER,
       };
 
     case 'local':
@@ -44,6 +50,9 @@ module.exports = () => {
         EXPIRY: constants.key.tokenExpiry,
         S3DETAILS: constants.s3Details.LOCALHOST,
         FCM_SERVER_KEY: constants.FCM.SERVERKEY,
+        TWILIO_ACCOUNT_SID: constants.TWILIO.ACCOUNT_SID,
+        TWILIO_AUTH_TOKEN: constants.TWILIO.AUTH_TOKEN,
+        TWILIO_PHONE_NUMBER: constants.TWILIO.PHONE_NUMBER,
       };
 
     default:
@@ -58,6 +67,9 @@ module.exports = () => {
         EXPIRY: constants.key.tokenExpiry,
         S3DETAILS: constants.s3Details.LOCALHOST,
         FCM_SERVER_KEY: constants.FCM.SERVERKEY,
+        TWILIO_ACCOUNT_SID: constants.TWILIO.ACCOUNT_SID,
+        TWILIO_AUTH_TOKEN: constants.TWILIO.AUTH_TOKEN,
+        TWILIO_PHONE_NUMBER: constants.TWILIO.PHONE_NUMBER,
       };
   }
 };

@@ -4,6 +4,11 @@ var error_msg = {
         message : 'Account with this user name already exist.',
         responseType:'ALREADY_EXIST'
 	},
+	VERIFY_OTP :{
+		statusCode:200,
+        message : 'OTP verified successfully..',
+        responseType:'VERIFY_OTP'
+	},
 	invalidToken:{
 		message:"You are not authorized.",
 		statusCode:401,
@@ -14,10 +19,15 @@ var error_msg = {
 		statusCode:400,
 		responseType:'INVALID_CREDENTIALS'
 	},
-	InvalidRequest:{
-		message: "Invalid Request.",
+	PASSWORD_MATCH_ERR:{
+		message: "Passwords do not match.",
 		statusCode:400,
-		responseType:'InvalidRequest'
+		responseType:'PASSWORD_MATCH_ERR'
+	},
+	INVALID_OTP:{
+		message: "The OTP you have entered is incorrect.",
+		statusCode:400,
+		responseType:'INVALID_OTP'
 	},
 	InvalidFileExtension:{
 		message: "Media with ths extension is not allowed.",
@@ -48,11 +58,6 @@ var error_msg = {
 		statusCode:400,
         message : 'Implementation Error.',
         responseType:'IMPLEMENTATION_ERROR'
-	},
-	SettingsError:{
-		message: "Default Settings does not exist",
-		statusCode:400,
-		responseType:'SettingsError'
 	},
 };
 

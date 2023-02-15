@@ -1,3 +1,5 @@
+var randomstring = require("randomstring");
+
 module.exports = { 
     verifyJoiSchema: async (data, schema) => {
         try {
@@ -7,5 +9,8 @@ module.exports = {
         catch (error) {
             throw error;
         }
-    }
+    },
+    generateRandomString: (size, type) => {
+        return randomstring.generate({ length: size, charset: type });
+    },
 }

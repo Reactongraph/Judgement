@@ -13,8 +13,10 @@ const userSchema = {
   },
   userName: { type: String, default: null},
   password: { type: String, default: null},
-  syncContacts: { type: Boolean, default: false },
+  syncContacts: { type: Boolean, default: true },
   userContacts: { type: Array, default: null},
+  forgotPasswordOtp: { type: String, default: null},
+  isRandomize: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false },
 };
 

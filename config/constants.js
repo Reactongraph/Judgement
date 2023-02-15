@@ -44,6 +44,11 @@ const globalConstants = {
   FCM: {
     SERVERKEY: '',
   },
+  TWILIO: {
+    ACCOUNT_SID: 'AC07131dae3c7baee544006b1cb04bb92f',
+    AUTH_TOKEN: '6ef4aa33c69f25f93fce29b7ee86310d',
+    PHONE_NUMBER: '+16267413294'
+  },
   s3Details: {
     LOCALHOST: {
       bucket: '',

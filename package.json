@@ -35,7 +35,9 @@
     "node-cron": "^3.0.2",
     "nodemailer": "^6.4.2",
     "pg": "^8.5.1",
+    "randomstring": "^1.2.3",
     "request": "^2.88.0",
+    "twilio": "^4.7.2",
     "underscore": "^1.13.6"
   }
 }

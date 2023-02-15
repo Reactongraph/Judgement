@@ -1,9 +1,6 @@
-const env = require('../config/env')();
+var randomstring = require("randomstring");
 
 module.exports = {
-    randomIntegerOtp: function () {
-        return Math.floor(1000 + Math.random() * 9000);
-    },
     verifyJoiSchema: async (data, schema) => {
         try {
             const value = await Joi.validate(data, schema);
@@ -12,5 +9,8 @@ module.exports = {
         catch (error) {
             throw error;
         }
+    },
+    generateRandomString: (size, type) => {
+        return randomstring.generate({ length: size, charset: type });
     },
 }

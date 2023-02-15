@@ -66,4 +66,49 @@ router.put("/", authentication, multipartMiddleware, (req, res) => {
     });
 });
 
+/* Forgot Password Api*/
+router.post("/forgotPassword", (req, res) => {
+  UserController.forgotPassword(req.body)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, err.name, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
+/* Forgot Password Api*/
+router.post("/verifyPasswordOtp", (req, res) => {
+  UserController.verifyPasswordOtp(req.body)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, err.name, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
+/* Forgot Password Api*/
+router.post("/changePassword", (req, res) => {
+  UserController.changePassword(req.body)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, err.name, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
 module.exports = router;
