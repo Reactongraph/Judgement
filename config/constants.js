@@ -51,9 +51,9 @@ const globalConstants = {
   },
   s3Details: {
     LOCALHOST: {
-      bucket: '',
-      secretAccessKey: '',
-      accessKeyId: '',
+      bucket: 'thisrthat',
+      secretAccessKey: 'GZGDa4X6hjyS5M66qBfxdfMiGAI50kYN9y1N7eXZ',
+      accessKeyId: 'AKIAX2QASKRDPBLUU4UN',
       awsRegion: 'us-east-1',
       s3folders: {
         s3Url: '/',
@@ -61,9 +61,9 @@ const globalConstants = {
       }
     },
     PROD: {
-      bucket: '',
-      secretAccessKey: '',
-      accessKeyId: '',
+      bucket: 'thisrthat',
+      secretAccessKey: 'GZGDa4X6hjyS5M66qBfxdfMiGAI50kYN9y1N7eXZ',
+      accessKeyId: 'AKIAX2QASKRDPBLUU4UN',
       awsRegion: 'us-east-1',
       s3folders: {
         s3Url: '/',
@@ -71,9 +71,9 @@ const globalConstants = {
       }
     },
     DEV: {
-      bucket: '',
-      secretAccessKey: '',
-      accessKeyId: '',
+      bucket: 'thisrthat',
+      secretAccessKey: 'GZGDa4X6hjyS5M66qBfxdfMiGAI50kYN9y1N7eXZ',
+      accessKeyId: 'AKIAX2QASKRDPBLUU4UN',
       awsRegion: 'us-east-1',
       s3folders: {
         s3Url: '/',

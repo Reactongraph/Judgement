@@ -7,8 +7,8 @@ var multipart = require("connect-multiparty");
 var multipartMiddleware = multipart();
 
 /* Create Question*/
-router.post("/", authentication, (req, res) => {
-    QuestionController.createQuestion(req.body, req.user)
+router.post("/", authentication, multipartMiddleware, (req, res) => {
+    QuestionController.createQuestion(req.body, req.user, req.files)
     .then((data) => {
       sendResponse.sendSuccessMessage("success", data, res);
     })

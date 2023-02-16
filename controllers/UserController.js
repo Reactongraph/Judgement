@@ -17,7 +17,7 @@ const register = async (payloadData) => {
       password: Joi.string().required().min(6).max(30),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
-    let userData = await userModel.findOne({ userName: payload.userName });
+    let userData = await userModel.findOne({  $or:[ {'userName':payload.username}, {'phone':payload.phone}] });
     if (userData) {
       throw Response.error_msg.ALREADY_EXIST;
     }

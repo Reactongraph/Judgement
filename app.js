@@ -1,3 +1,4 @@
+// require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -5,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const env = require('./config/env')();
 var cors = require('cors');
-const cronManager = require("node-cron");
 global.APP_PATH = path.resolve(__dirname);
 global.Joi = require('joi');
 

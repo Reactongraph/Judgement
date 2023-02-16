@@ -1,7 +1,7 @@
 var error_msg = {	
 	ALREADY_EXIST :{
 		statusCode:400,
-        message : 'Account with this user name already exist.',
+        message : 'Account with this user name or phone no. already exist.',
         responseType:'ALREADY_EXIST'
 	},
 	VERIFY_OTP :{

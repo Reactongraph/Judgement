@@ -81,7 +81,7 @@ router.post("/forgotPassword", (req, res) => {
     });
 });
 
-/* Forgot Password Api*/
+/* Verify OTP Api*/
 router.post("/verifyPasswordOtp", (req, res) => {
   UserController.verifyPasswordOtp(req.body)
     .then((data) => {
@@ -96,7 +96,7 @@ router.post("/verifyPasswordOtp", (req, res) => {
     });
 });
 
-/* Forgot Password Api*/
+/* Change Password Api*/
 router.post("/changePassword", (req, res) => {
   UserController.changePassword(req.body)
     .then((data) => {

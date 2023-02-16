@@ -1,31 +1,32 @@
 const mongoose = require('mongoose');
-const Jwt = require("jsonwebtoken");
 const fs = require("fs");
 const env = require("../config/env")();
-// const AWS = require("aws-sdk");
-// const s3 = new AWS.S3({
-//   accessKeyId: env.S3DETAILS.secretAccessKey,
-//   secretAccessKey: env.S3DETAILS.accessKeyId,
-//   region: env.S3DETAILS.awsRegion,
-// });
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3({
+  accessKeyId: env.S3DETAILS.accessKeyId,
+  secretAccessKey: env.S3DETAILS.secretAccessKey,
+  region: env.S3DETAILS.awsRegion,
+});
 
 const commonController = require("../helpers/common");
 const questionModel = require("../models/questions");
 const Response = require('../config/response');
 
-const createQuestion = async (payloadData, userData) => {
+const createQuestion = async (payloadData, userData, fileData) => {
   try {
     const schema = Joi.object().keys({
-      text: Joi.string().required().max(100),
-      answers: Joi.array().items(),
+      text: Joi.string().required().max(150),
+      answers: Joi.array().items(Joi.object({
+        text: Joi.string().required().max(150),
+        media:  Joi.string().optional(),
+      })).required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     
     payload.userId = userData.id;
-    // if (fileData &&  fileData.images && fileData.images.length) {
-    //     for (const media in fileData.images) {
-    //         await uploadMedia(media)
-    //       }
+    // if (fileData &&  fileData.media) {
+    //   await uploadMedia(fileData.media)
+    //   payload.media= fileData.media.originalFilename;
     // }
     const question = await questionModel.create(payload);
     return question;
@@ -73,7 +74,7 @@ async function uploadMedia(media) {
     const blob = fs.createReadStream(mediaPath);
     const uploadFile = await s3
       .upload({
-        Bucket: `${env.S3DETAILS.bucket}/${env.S3DETAILS.s3folders.hangouts}`,
+        Bucket: `${env.S3DETAILS.bucket}`,
         Key: media.originalFilename,
         Body: blob,
         ACL: "public-read",

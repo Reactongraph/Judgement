@@ -10,7 +10,7 @@ const questionCollectionName = 'questions';
 
 const questionSchema = {
   text: { type: String, default: null },
-  image: { type: String, default: null },
+  media: { type: String, default: null },
   userId: { type: Schema.Types.ObjectId, ref: "users" },
   answers: { type: Array, default: [] },
   isDeleted: { type: Boolean, default: false },
