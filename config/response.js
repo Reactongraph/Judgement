@@ -29,6 +29,11 @@ var error_msg = {
 		statusCode:400,
 		responseType:'INVALID_OTP'
 	},
+	NO_CONTACTS_FOUND:{
+		message: "No Contacts Found",
+		statusCode:400,
+		responseType:'NO_CONTACTS_FOUND'
+	},
 	InvalidFileExtension:{
 		message: "Media with ths extension is not allowed.",
 		statusCode:400,

@@ -1,10 +1,10 @@
-// require('dotenv').config();
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const env = require('./config/env')();
+const env = process.env;
 var cors = require('cors');
 global.APP_PATH = path.resolve(__dirname);
 global.Joi = require('joi');
@@ -57,7 +57,7 @@ app.use(function (err, req, res, next) {
   console.log(err);
   // render the error page
   res.status(err.status || 500);
-  res.render('404', { baseUrl: env.SITEURL })
+  res.render('404', { baseUrl: env.URL })
 });
 
 module.exports = app;

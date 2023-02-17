@@ -1,5 +1,5 @@
 'use strict';
-const env = require('./config/env')();
+const env = process.env;
 const constants = require("./config/constants.js");
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;

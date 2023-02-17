@@ -1,16 +1,20 @@
 const mongoose = require('mongoose');
 const fs = require("fs");
-const env = require("../config/env")();
+const _ = require('underscore');
+const env = process.env;
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3({
-  accessKeyId: env.S3DETAILS.accessKeyId,
-  secretAccessKey: env.S3DETAILS.secretAccessKey,
-  region: env.S3DETAILS.awsRegion,
+  accessKeyId: env.ACCESS_KEY_ID,
+  secretAccessKey: env.SECRET_ACCESS_KEY,
+  region: env.AWS_REGION,
 });
 
 const commonController = require("../helpers/common");
 const questionModel = require("../models/questions");
+const userModel = require("../models/users");
 const Response = require('../config/response');
+const TWILIO = require('../helpers/twilio');
+const messages = require('../config/messages');
 
 const createQuestion = async (payloadData, userData, fileData) => {
   try {
@@ -24,12 +28,26 @@ const createQuestion = async (payloadData, userData, fileData) => {
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     
     payload.userId = userData.id;
-    // if (fileData &&  fileData.media) {
-    //   await uploadMedia(fileData.media)
-    //   payload.media= fileData.media.originalFilename;
-    // }
-    const question = await questionModel.create(payload);
-    return question;
+    const user = await userModel.findOne({ _id: userData.id });
+
+    //check user contacts
+    if (user && user.userContacts && user.userContacts.length) {
+
+      if (fileData &&  fileData.media) {
+        uploadMedia(fileData.media)
+        payload.media= fileData.media.originalFilename;
+      }
+
+      // create question
+      const question = await questionModel.create(payload);
+
+      // get user contacts and send message
+      // const userContacts = getUserContacts(user);
+
+      return question;
+    }
+    return Response.error_msg.NO_CONTACTS_FOUND;
+
   } catch (err) {
     console.log(err);
     throw err;
@@ -74,7 +92,7 @@ async function uploadMedia(media) {
     const blob = fs.createReadStream(mediaPath);
     const uploadFile = await s3
       .upload({
-        Bucket: `${env.S3DETAILS.bucket}`,
+        Bucket: `${env.BUCKET}`,
         Key: media.originalFilename,
         Body: blob,
         ACL: "public-read",
@@ -82,6 +100,18 @@ async function uploadMedia(media) {
       .promise();
     return uploadFile;
   }
+
+function getUserContacts(data) {  
+  let userContacts = data.userContacts;
+  if (data.isRandomize) {
+    userContacts = _.shuffle(userContacts);
+    userContacts.length = 10;
+  }
+  const message = `${messages.TWILIO.QUESTION_HEADING}`;
+  for (const contact of userContacts) {
+    TWILIO.sendMessage(message, `+91${contact}`);
+  }
+}
 
 module.exports = {
   createQuestion: createQuestion,

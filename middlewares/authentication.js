@@ -1,8 +1,6 @@
 const Jwt = require('jsonwebtoken');
-// const moment = require('moment');
-const env = require('../config/env')();
 const response = require('../config/response')
-const privateKey = require('../config/constants').key.privateKey;
+const privateKey = process.env.JWT_PRIVATE_KEY;
 const userModel = require("../models/users");
 
 /**

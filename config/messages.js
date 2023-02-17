@@ -6,6 +6,9 @@ const messages = {
   },
   error : {
     DUPLICATE_PHONE : "Account already exist with this phone number.",
+  },
+  TWILIO : {
+    QUESTION_HEADING: "Anonymous wants to know: "
   }
 }
 

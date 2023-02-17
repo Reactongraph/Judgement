@@ -1,5 +1,4 @@
 const Jwt = require("jsonwebtoken");
-const env = require("../config/env")();
 const crypto = require('../helpers/crypto');
 
 const commonController = require("../helpers/common");
@@ -27,7 +26,7 @@ const register = async (payloadData) => {
       id: user._id,
       userName: payload.userName,
     };
-    let token = await Jwt.sign(tokenData, Constants.key.privateKey);
+    let token = await Jwt.sign(tokenData, process.env.JWT_PRIVATE_KEY);
     return {
       accessToken: token,
       id: user._id,
@@ -57,7 +56,7 @@ const login = async (payloadData) => {
       id: user._id,
       userName: payload.userName,
     };
-    let token = await Jwt.sign(tokenData, Constants.key.privateKey);
+    let token = await Jwt.sign(tokenData, process.env.JWT_PRIVATE_KEY);
     return {
       accessToken: token,
       id: user._id,
@@ -148,7 +147,7 @@ const forgotPassword = async (payloadData) => {
 
     //send OTP via TWILIO
     const message = `${messages.success.FORGOT_PASSWORD_OTP}${otp}`;
-    TWILIO.sendOtp(message, `+91${payload.phone}`);
+    TWILIO.sendMessage(message, `+91${payload.phone}`);
     
     return ;
   } catch (err) {

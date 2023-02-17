@@ -1,6 +1,6 @@
 "use strict";
 
-const env = require("../config/env")();
+const env = process.env;
 const phoneNUmber = env.TWILIO_PHONE_NUMBER
 const client = require("twilio")(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN);
 
@@ -10,7 +10,7 @@ const client = require("twilio")(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN);
  * @param to {string} phone number on which message is to be sent
  * @return: {string} message sid
  */
-const sendOtp = (body, to) => {
+const sendMessage = (body, to) => {
   client.messages
     .create({
       body: body,
@@ -21,5 +21,5 @@ const sendOtp = (body, to) => {
 };
 
 module.exports = {
-  sendOtp,
+  sendMessage,
 };
