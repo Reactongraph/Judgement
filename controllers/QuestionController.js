@@ -50,6 +50,7 @@ const createQuestion = async (payloadData, userData, fileData) => {
 
       // get user contacts and send message
       getUserContacts(user, question);
+      console.log('response',question);
 
       return question;
     }
