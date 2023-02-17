@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const env = process.env;
-console.log(env)
 var cors = require('cors');
 global.APP_PATH = path.resolve(__dirname);
 global.Joi = require('joi');

@@ -17,12 +17,14 @@ const TWILIO = require('../helpers/twilio');
 const messages = require('../config/messages');
 
 const createQuestion = async (payloadData, userData, fileData) => {
+  console.log('payload',payloadData);
+  console.log('fileData', fileData)
   try {
     const schema = Joi.object().keys({
       text: Joi.string().required().max(150),
       answers: Joi.array().items(Joi.object({
         text: Joi.string().required().max(150),
-        media:  Joi.string().optional(),
+        media: Joi.object().optional()
       })).required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
@@ -37,12 +39,17 @@ const createQuestion = async (payloadData, userData, fileData) => {
         uploadMedia(fileData.media)
         payload.media= fileData.media.originalFilename;
       }
-
+      for( let ans of payload.answers) {
+        if (ans.media) {
+          uploadMedia(ans.media);
+          ans.media = ans.media.originalFilename;
+        }
+      }
       // create question
       const question = await questionModel.create(payload);
 
       // get user contacts and send message
-      // const userContacts = getUserContacts(user);
+      getUserContacts(user, question);
 
       return question;
     }
@@ -101,13 +108,14 @@ async function uploadMedia(media) {
     return uploadFile;
   }
 
-function getUserContacts(data) {  
+function getUserContacts(data, question) {  
   let userContacts = data.userContacts;
   if (data.isRandomize) {
     userContacts = _.shuffle(userContacts);
     userContacts.length = 10;
   }
-  const message = `${messages.TWILIO.QUESTION_HEADING}`;
+  const message = `${messages.TWILIO.QUESTION_HEADING}${question.text}`;
+  // TWILIO.sendMessage(message, `+919041823411`);
   for (const contact of userContacts) {
     TWILIO.sendMessage(message, `+91${contact}`);
   }
