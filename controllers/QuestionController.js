@@ -43,8 +43,8 @@ const createQuestion = async (payloadData, userData, fileData) => {
         console.log(payload.answers[index]);
         const answersMedia = fileData.answersMedia;
         if (answersMedia[index].media && answersMedia[index].media.type != null) {
-          uploadMedia(answersMedia[index].media);
           newAnsArr.push({text : payload.answers[index], media: answersMedia[index].media.originalFilename});
+          uploadMedia(answersMedia[index].media);
         }
       }
       payload.answers = newAnsArr;
