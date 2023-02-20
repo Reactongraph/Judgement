@@ -36,12 +36,20 @@ const createQuestion = async (payloadData, userData, fileData) => {
         uploadMedia(fileData.media)
         payload.media= fileData.media.originalFilename;
       }
-      for( let ans of fileData.answersMedia) {
-        if (ans.media) {
-          uploadMedia(ans.media);
-          ans.media = ans.media.originalFilename;
+
+      let newAnsArr = [];
+      for( const [index, ans] of payload.answers.entries()) {
+        console.log("answer media",index,ans);
+        console.log(payload.answers[index]);
+        const answersMedia = fileData.answersMedia;
+        if (answersMedia[index].media && answersMedia[index].media.type != null) {
+          uploadMedia(answersMedia[index].media);
+          newAnsArr.push({text : payload.answers[index], media: answersMedia[index].media.originalFilename});
         }
       }
+      payload.answers = newAnsArr;
+      console.log('payload', payload);
+      
       // create question
       const question = await questionModel.create(payload);
 
