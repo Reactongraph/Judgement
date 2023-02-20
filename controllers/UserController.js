@@ -12,11 +12,12 @@ const register = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
       userName: Joi.string().required().min(6).max(30),
-      phone: Joi.string().required().min(10).max(10),
+      phone: Joi.string().required().min(10).max(15),
       password: Joi.string().required().min(6).max(30),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     let userData = await userModel.findOne({  $or:[ {'userName':payload.username}, {'phone':payload.phone}] });
+    console.log(userData);
     if (userData) {
       throw Response.error_msg.ALREADY_EXIST;
     }
@@ -73,7 +74,6 @@ const login = async (payloadData) => {
 const updateUser = async (payloadData, userData, fileData) => {
   try {
     const schema = Joi.object().keys({
-      phone: Joi.string().optional().max(10),
       userContacts: Joi.array().items(Joi.string()),
       syncContacts: Joi.boolean().optional(),
       isRandomize: Joi.boolean().optional(),
@@ -130,7 +130,7 @@ const getUserDetails = async (payloadData) => {
 const forgotPassword = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      phone: Joi.string().required().min(10).max(10),
+      phone: Joi.string().required().min(10).max(15),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     
@@ -147,7 +147,7 @@ const forgotPassword = async (payloadData) => {
 
     //send OTP via TWILIO
     const message = `${messages.success.FORGOT_PASSWORD_OTP}${otp}`;
-    TWILIO.sendMessage(message, `+91${payload.phone}`);
+    TWILIO.sendMessage(message, `${payload.phone}`);
     
     return ;
   } catch (err) {
@@ -159,7 +159,7 @@ const forgotPassword = async (payloadData) => {
 const verifyPasswordOtp = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      phone: Joi.string().required().min(10).max(10),
+      phone: Joi.string().required().min(10).max(15),
       otp: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
@@ -186,7 +186,7 @@ const verifyPasswordOtp = async (payloadData) => {
 const changePassword = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      phone: Joi.string().required().min(10).max(10),
+      phone: Joi.string().required().min(10).max(15),
       newPassword: Joi.string().required().min(6).max(30),
       confirmPassword: Joi.string().required().min(6).max(10),
     });

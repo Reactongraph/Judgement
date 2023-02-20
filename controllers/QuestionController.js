@@ -22,10 +22,7 @@ const createQuestion = async (payloadData, userData, fileData) => {
   try {
     const schema = Joi.object().keys({
       text: Joi.string().required().max(150),
-      answers: Joi.array().items(Joi.object({
-        text: Joi.string().required().max(150),
-        media: Joi.object().optional()
-      })).required(),
+      answers: Joi.array().items(Joi.string()),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     
@@ -39,7 +36,7 @@ const createQuestion = async (payloadData, userData, fileData) => {
         uploadMedia(fileData.media)
         payload.media= fileData.media.originalFilename;
       }
-      for( let ans of payload.answers) {
+      for( let ans of fileData.answersMedia) {
         if (ans.media) {
           uploadMedia(ans.media);
           ans.media = ans.media.originalFilename;
@@ -86,7 +83,7 @@ const getList = async (payloadData, userData) => {
         skip: Joi.number().required(),
       });
       let payload = await commonController.verifyJoiSchema(payloadData, schema);
-      const questions = await questionModel.find({userId : mongoose.Types.ObjectId(userData.id)}, {}, parseInt(payload.limit), { 'createdAt': -1 }, parseInt(payload.skip));
+      const questions = await questionModel.find({userId : mongoose.Types.ObjectId(userData.id)}, {"_id": 1, "text": 1}, parseInt(payload.limit), { 'createdAt': -1 }, parseInt(payload.skip));
       return questions;
     } catch (err) {
       console.log(err);
@@ -118,7 +115,7 @@ function getUserContacts(data, question) {
   const message = `${messages.TWILIO.QUESTION_HEADING}${question.text}`;
   // TWILIO.sendMessage(message, `+919041823411`);
   for (const contact of userContacts) {
-    TWILIO.sendMessage(message, `+91${contact}`);
+    TWILIO.sendMessage(message, `${contact}`);
   }
 }
 
