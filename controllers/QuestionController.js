@@ -17,8 +17,6 @@ const TWILIO = require('../helpers/twilio');
 const messages = require('../config/messages');
 
 const createQuestion = async (payloadData, userData, fileData) => {
-  console.log('payload',payloadData);
-  console.log('fileData', fileData)
   try {
     const schema = Joi.object().keys({
       text: Joi.string().required().max(150),
@@ -37,10 +35,9 @@ const createQuestion = async (payloadData, userData, fileData) => {
         payload.media= fileData.media.originalFilename;
       }
 
+      // logic to create answers
       let newAnsArr = [];
       for( const [index, ans] of payload.answers.entries()) {
-        console.log("answer media",index,ans);
-        console.log(payload.answers[index]);
         const answersMedia = fileData.answersMedia;
         if (answersMedia[index] && answersMedia[index].type != null) {
           newAnsArr.push({text : payload.answers[index], media: answersMedia[index].originalFilename});
@@ -48,14 +45,12 @@ const createQuestion = async (payloadData, userData, fileData) => {
         }
       }
       payload.answers = newAnsArr;
-      console.log('payload', payload);
       
       // create question
       const question = await questionModel.create(payload);
 
       // get user contacts and send message
       getUserContacts(user, question);
-      console.log('response',question);
 
       return question;
     }
@@ -114,6 +109,7 @@ async function uploadMedia(media) {
     return uploadFile;
   }
 
+// use contacts send message logic
 function getUserContacts(data, question) {  
   let userContacts = data.userContacts;
   if (data.isRandomize) {

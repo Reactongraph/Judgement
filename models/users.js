@@ -7,12 +7,10 @@ const dbModel = require('./db-model');
 const userCollectionName = 'users';
 
 const userSchema = {
-  phone: {
-    type: String,
-    required: [true, 'phone number is required property']
-  },
-  userName: { type: String, default: null},
-  password: { type: String, default: null},
+  phone: { type: String, required: true },
+  countryCode: { type: String, required: true },
+  userName: { type: String, required: true},
+  password: { type: String, required: true},
   syncContacts: { type: Boolean, default: true },
   userContacts: { type: Array, default: null},
   forgotPasswordOtp: { type: String, default: null},
