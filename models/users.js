@@ -11,7 +11,7 @@ const userSchema = {
   countryCode: { type: String, required: true },
   userName: { type: String, required: true},
   password: { type: String, required: true},
-  syncContacts: { type: Boolean, default: true },
+  syncContacts: { type: Boolean, default: false },
   userContacts: { type: Array, default: null},
   forgotPasswordOtp: { type: String, default: null},
   isRandomize: { type: Boolean, default: false },
