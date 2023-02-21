@@ -42,10 +42,11 @@ const createQuestion = async (payloadData, userData, fileData) => {
         if (answersMedia[index] && answersMedia[index].type != null) {
           newAnsArr.push({text : payload.answers[index], media: answersMedia[index].originalFilename});
           uploadMedia(answersMedia[index]);
+        }else{
+          newAnsArr.push({text: payload.answers[index], media: null})
         }
       }
       payload.answers = newAnsArr;
-      
       // create question
       const question = await questionModel.create(payload);
 
