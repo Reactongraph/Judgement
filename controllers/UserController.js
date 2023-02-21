@@ -36,6 +36,7 @@ const register = async (payloadData) => {
       countryCode: user.countryCode,
       userName: user.userName,
       syncContacts: user.syncContacts,
+      userContacts: user.userContacts,
     };
   } catch (err) {
     console.log(err);
@@ -101,6 +102,7 @@ const updateUser = async (payloadData, userData, fileData) => {
       phone: user.phone,
       userName: user.userName,
       syncContacts: user.syncContacts,
+      userContacts: user.userContacts
     };
   } catch (err) {
     console.log(err);
@@ -151,7 +153,12 @@ const forgotPassword = async (payloadData) => {
     );
 
     //send OTP via TWILIO
+    let messageToSend= "What is your name?"
+
     const message = `${messages.success.FORGOT_PASSWORD_OTP}${otp}`;
+//     const message = `What is your name?
+// 1) sajan
+// 2) sahil`;
     TWILIO.sendMessage(message, `${payload.countryCode}${payload.phone}`);
     
     return ;
