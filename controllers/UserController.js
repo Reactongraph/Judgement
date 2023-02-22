@@ -37,7 +37,7 @@ const register = async (payloadData) => {
       userName: user.userName,
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
-      isRandomize: user,isRandomize,
+      isRandomize: user.isRandomize,
     };
   } catch (err) {
     console.log(err);
@@ -70,7 +70,7 @@ const login = async (payloadData) => {
       userName: user.userName,
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
-      isRandomize: user,isRandomize,
+      isRandomize: user.isRandomize,
     };
   } catch (err) {
     console.log(err);
@@ -106,7 +106,7 @@ const updateUser = async (payloadData, userData, fileData) => {
       userName: user.userName,
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
-      isRandomize: user,isRandomize,
+      isRandomize: user.isRandomize,
     };
   } catch (err) {
     console.log(err);
@@ -131,7 +131,7 @@ const getUserDetails = async (payloadData) => {
       userName: user.userName,
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
-      isRandomize: user,isRandomize,
+      isRandomize: user.isRandomize,
     };
   } catch (err) {
     console.log(err);
