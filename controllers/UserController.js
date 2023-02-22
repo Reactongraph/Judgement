@@ -209,7 +209,6 @@ const changePassword = async (payloadData) => {
       countryCode: Joi.string().required().min(3).max(5),
       phone: Joi.string().required().min(10).max(15),
       newPassword: Joi.string().required().min(6).max(30),
-      confirmPassword: Joi.string().required().min(6).max(10),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     
@@ -217,16 +216,13 @@ const changePassword = async (payloadData) => {
     if (!user) {
       throw Response.error_msg.notFound;
     }
-    if( payload.newPassword === payload.confirmPassword) {
-      const newPassword = crypto.generateHash(payload.newPassword);
-      await userModel.findOneAndUpdate(
-        { phone: payload.phone},
-        { password: newPassword},
-        { new: true }
-      );
+    const newPassword = crypto.generateHash(payload.newPassword);
+    await userModel.findOneAndUpdate(
+      { phone: payload.phone},
+      { password: newPassword},
+      { new: true }
+    );
       return;
-    }
-    throw Response.error_msg.PASSWORD_MATCH_ERR;
   } catch (err) {
     console.log(err);
     throw err;
