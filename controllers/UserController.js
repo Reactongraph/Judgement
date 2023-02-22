@@ -86,6 +86,7 @@ const updateUser = async (payloadData, userData, fileData) => {
       isRandomize: Joi.boolean().optional(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
+    console.log('payloadddd', payload);
     if (fileData && fileData.profilePic) {
       const uploadedImage = await uploadImage(fileData.profilePic);
       payload.profilePic = uploadedImage.key;
