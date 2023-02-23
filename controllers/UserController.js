@@ -87,7 +87,7 @@ const updateUser = async (payloadData, userData) => {
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     console.log('payloadddd', payload);
-    
+
     let setData = { ...payload };
     const selectparams = { new: true };
     let user = await userModel.findOneAndUpdate(
@@ -147,7 +147,7 @@ const forgotPassword = async (payloadData) => {
     
     const user = await userModel.findOne({ phone: payload.phone });
     if (!user) {
-      throw Response.error_msg.notFound;
+      throw Response.error_msg.PHONE_NOT_REGISTERED;
     }
     const otp = await commonController.generateRandomString(4, 'numeric');
     await userModel.findOneAndUpdate(

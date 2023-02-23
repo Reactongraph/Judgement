@@ -54,6 +54,11 @@ var error_msg = {
         message : 'Not Found.',
         responseType:'NOT_Found'
 	},
+	PHONE_NOT_REGISTERED: {
+		statusCode:400,
+        message : 'The mobile number is not registered.',
+        responseType:'PHONE_NOT_REGISTERED'
+	},
 	FollowError: {
 		statusCode:400,
         message : 'You cannot follow your own hangout.',
