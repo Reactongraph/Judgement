@@ -52,7 +52,7 @@ router.get("/:id", authentication, (req, res) => {
 });
 
 /* Update User Api*/
-router.put("/", authentication, multipartMiddleware, (req, res) => {
+router.put("/", authentication, (req, res) => {
   UserController.updateUser(req.body, req.user, req.files)
     .then((data) => {
       sendResponse.sendSuccessMessage("success", data, res);
