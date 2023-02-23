@@ -53,7 +53,7 @@ router.get("/:id", authentication, (req, res) => {
 
 /* Update User Api*/
 router.put("/", authentication, (req, res) => {
-  UserController.updateUser(req.body, req.user, req.files)
+  UserController.updateUser(req.body, req.user)
     .then((data) => {
       sendResponse.sendSuccessMessage("success", data, res);
     })

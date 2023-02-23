@@ -78,7 +78,7 @@ const login = async (payloadData) => {
   }
 };
 
-const updateUser = async (payloadData, userData, fileData) => {
+const updateUser = async (payloadData, userData) => {
   try {
     const schema = Joi.object().keys({
       userContacts: Joi.array().items(Joi.string()),
@@ -87,10 +87,7 @@ const updateUser = async (payloadData, userData, fileData) => {
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     console.log('payloadddd', payload);
-    if (fileData && fileData.profilePic) {
-      const uploadedImage = await uploadImage(fileData.profilePic);
-      payload.profilePic = uploadedImage.key;
-    }
+    
     let setData = { ...payload };
     const selectparams = { new: true };
     let user = await userModel.findOneAndUpdate(
