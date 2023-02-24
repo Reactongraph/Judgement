@@ -105,6 +105,7 @@ const updateUser = async (payloadData, userData) => {
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
       isRandomize: user.isRandomize,
+      countryCode: user.countryCode,
     };
   } catch (err) {
     console.log(err);
