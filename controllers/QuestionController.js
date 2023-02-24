@@ -37,7 +37,9 @@ const createQuestion = async (payloadData, userData, fileData) => {
 
       // logic to create answers
       let newAnsArr = [];
+      // let answerMessage = ``;
       for( const [index, ans] of payload.answers.entries()) {
+        // answerMessage = `${answerMessage}${index+1}). ${payload.answers[index]}\n`;
         const answersMedia = fileData && fileData.answersMedia ? fileData.answersMedia : [];
         if (answersMedia[index] && answersMedia[index].type != null) {
           newAnsArr.push({text : payload.answers[index], media: answersMedia[index].originalFilename});
@@ -111,13 +113,14 @@ async function uploadMedia(media) {
   }
 
 // use contacts send message logic
-function getUserContacts(data, question) {  
+function getUserContacts(data, question, answerMessage) {  
   let userContacts = data.userContacts;
   if (data.isRandomize) {
     userContacts = _.shuffle(userContacts);
     userContacts.length = 10;
   }
-  const message = `${messages.TWILIO.QUESTION_HEADING}${question.text}`;
+  // let message = `${messages.TWILIO.QUESTION_HEADING}${question.text}\n${answerMessage}`;
+  const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}`;
   // TWILIO.sendMessage(message, `+919041823411`);
   for (const contact of userContacts) {
     TWILIO.sendMessage(message, `${contact}`);

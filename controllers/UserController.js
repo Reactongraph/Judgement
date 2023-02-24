@@ -157,7 +157,6 @@ const forgotPassword = async (payloadData) => {
     );
 
     //send OTP via TWILIO
-    let messageToSend= "What is your name?"
 
     const message = `${messages.success.FORGOT_PASSWORD_OTP}${otp}`;
 //     const message = `What is your name?
