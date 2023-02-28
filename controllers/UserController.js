@@ -38,6 +38,7 @@ const register = async (payloadData) => {
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
       isRandomize: user.isRandomize,
+      s3Url: process.env.S3URL
     };
   } catch (err) {
     console.log(err);
@@ -71,6 +72,7 @@ const login = async (payloadData) => {
       syncContacts: user.syncContacts,
       userContacts: user.userContacts,
       isRandomize: user.isRandomize,
+      s3Url: process.env.S3URL,
     };
   } catch (err) {
     console.log(err);
