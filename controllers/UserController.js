@@ -13,7 +13,7 @@ const register = async (payloadData) => {
     const schema = Joi.object().keys({
       userName: Joi.string().required().min(6).max(30),
       phone: Joi.string().required().min(10).max(15),
-      countryCode: Joi.string().required().min(3).max(5),
+      countryCode: Joi.string().required().min(1).max(5),
       password: Joi.string().required().min(6).max(30),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
@@ -143,7 +143,7 @@ const getUserDetails = async (payloadData) => {
 const forgotPassword = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      countryCode: Joi.string().required().min(3).max(5),
+      countryCode: Joi.string().required().min(1).max(5),
       phone: Joi.string().required().min(10).max(15),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
@@ -177,7 +177,7 @@ const forgotPassword = async (payloadData) => {
 const verifyPasswordOtp = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      countryCode: Joi.string().required().min(3).max(5),
+      countryCode: Joi.string().required().min(1).max(5),
       phone: Joi.string().required().min(10).max(15),
       otp: Joi.string().required(),
     });
@@ -205,7 +205,7 @@ const verifyPasswordOtp = async (payloadData) => {
 const changePassword = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      countryCode: Joi.string().required().min(3).max(5),
+      countryCode: Joi.string().required().min(1).max(5),
       phone: Joi.string().required().min(10).max(15),
       newPassword: Joi.string().required().min(6).max(30),
     });
