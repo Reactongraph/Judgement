@@ -111,4 +111,19 @@ router.post("/changePassword", (req, res) => {
     });
 });
 
+/* Logout Api*/
+router.post("/logout", authentication, (req, res) => {
+  UserController.logoutUser(req.user)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, err.name, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
 module.exports = router;

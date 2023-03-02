@@ -228,6 +228,15 @@ const changePassword = async (payloadData) => {
   }
 };
 
+const logoutUser = async (payloadData) => {
+  try {
+    return {};
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 module.exports = {
   register: register,
   login: login,
@@ -235,5 +244,6 @@ module.exports = {
   getUserDetails: getUserDetails,
   forgotPassword: forgotPassword,
   verifyPasswordOtp: verifyPasswordOtp,
-  changePassword: changePassword
+  changePassword: changePassword,
+  logoutUser: logoutUser
 };

@@ -204,20 +204,30 @@ const userPreference = async (payloadData, userData) => {
 const userResponse = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
-      aid: Joi.string().required(),
-      pid: Joi.string().required(),
+      qid: Joi.string().required(),
+      phid: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
 
-    const answerData = await answerModel.findOne({ _id: payload.aid });
-    if (!answerData) {
+    const conditions = [
+      {$match: 
+        {_id: mongoose.Types.ObjectId(payload.qid)},
+      },
+      {
+        $lookup: {
+          from: "answers",
+          localField: "_id",
+          foreignField: "questionId",
+          as: "answers",
+        },
+      },
+      {$project: {"text":1, "media":1, "userId":1, "answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
+    ];
+    const questionDetails = await questionModel.aggregate(conditions);
+    if (!questionDetails) {
       throw Response.error_msg.notFound;
     }
-
-    const questionData = await questionModel.findOne({ _id: answerData.questionId });
-    if (!questionData) {
-      throw Response.error_msg.notFound;
-    }
+    const questionData = questionDetails[0];
     if ((questionData.linkExpiredDate && questionData.linkExpiredDate < moment()) || questionData.hasOwnProperty("isMajority")) {
       throw Response.error_msg.LINK_EXPIRED;
     }
@@ -225,19 +235,8 @@ const userResponse = async (payloadData) => {
     if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.pid) > -1 ) {
       throw Response.error_msg.ALREADY_ANSWERED;
     }
-    //increase anwer count
-    await answerModel.findOneAndUpdate(
-      { _id: payload.aid},
-      { $inc: { count: 1 }},
-      { new: true }
-    );
-    await questionModel.findOneAndUpdate(
-      { _id: questionData._id},
-      { $push: { "usersAnswered": payload.pid  }, $inc: { userVoteCount: 1 }  },
-      { new: true }
-    );
-    
-    return {};
+    console.log("questionData", questionData)
+    return questionData;
   } catch (err) {
     console.log(err);
     throw err;
@@ -268,8 +267,9 @@ function getUserContacts(data, question, answerMessage) {
   }
   
   // TWILIO.sendMessage(message, `+919041823411`);
+  console.log(`${process.env.URL}/urls/user-response?qid=${question._id}&phid=+919041823411`);
   for (const contact of userContacts) {
-    const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/user-response?qid=${question._id}&pid=${contact}`;
+    const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/user-response?qid=${question._id}&phid=${contact}`;
     TWILIO.sendMessage(message, `${contact}`);
   }
 }
