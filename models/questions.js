@@ -12,7 +12,10 @@ const questionSchema = {
   text: { type: String, default: null },
   media: { type: String, default: null },
   userId: { type: Schema.Types.ObjectId, ref: "users" },
-  answers: { type: Array, default: [] },
+  usersAnswered: { type: Array, default: [] },
+  linkExpiredDate: { type: Date },
+  isMajority: { type: Boolean },
+  userVoteCount: { type: Number, default: 0 },
   isDeleted: { type: Boolean, default: false },
 };
 
@@ -51,6 +54,16 @@ const find = async function(conditions, selectparams, limit, sort, skip) {
 };
 
 /**
+ *  Function to find all hangout of user to database
+ * @param conditions {JSON_obj} the json object to be added
+ * @param selectparams {JSON_obj} the json object to be added
+ * @return  the json object to be return
+ */
+const aggregate = async (conditions) => {
+  return await questionModel.aggregate(conditions);
+};
+
+/**
  * Function to update question to database
  * @param conditions {JSON_obj} the json object to be added
  * @param selectparams {JSON_obj} the json object to be added
@@ -75,5 +88,6 @@ module.exports = {
   find,
   findOne,
   findOneAndUpdate,
-  deleteQuestion
+  deleteQuestion,
+  aggregate,
 };

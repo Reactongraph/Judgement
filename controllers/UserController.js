@@ -221,7 +221,7 @@ const changePassword = async (payloadData) => {
       { password: newPassword},
       { new: true }
     );
-      return;
+    return;
   } catch (err) {
     console.log(err);
     throw err;

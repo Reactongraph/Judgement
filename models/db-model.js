@@ -122,7 +122,7 @@ module.exports = function(collection, DBSchema, config) {
    */
   this.findByPopulate = function(conditions, selectparams, limit, sort, skip, pref) {
     return new Promise((resolve, reject) => {
-      let query = this.collectionObj.find(conditions).populate({path: "userId",select: 'name profilePic'});
+      let query = this.collectionObj.find(conditions).populate({path: "",select: ''});
       query = setReadPref(pref, query);
       query = setQueryLimit(limit, query);
       query = setQuerySkip(skip, query);

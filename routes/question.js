@@ -50,5 +50,49 @@ router.get("/", authentication, (req, res) => {
     });
 });
 
+/* Update question Api*/
+router.put("/userVoting", (req, res) => {
+  QuestionController.userVoting(req.body)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, {}, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
+/* Update Preference Api*/
+router.put("/userPreference", authentication, (req, res) => {
+  QuestionController.userPreference(req.body, req.user)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, {}, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
+/*Web Page for Question Response*/
+router.get("/user-response", (req, res) => {
+  QuestionController.userResponse(req.body, req.user)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("success", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, {}, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
 
 module.exports = router;

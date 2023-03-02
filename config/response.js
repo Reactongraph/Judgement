@@ -59,15 +59,20 @@ var error_msg = {
         message : 'The mobile number is not registered.',
         responseType:'PHONE_NOT_REGISTERED'
 	},
-	FollowError: {
-		statusCode:400,
-        message : 'You cannot follow your own hangout.',
-        responseType:'FollowError'
-	},
 	implementationError :{
 		statusCode:400,
         message : 'Implementation Error.',
         responseType:'IMPLEMENTATION_ERROR'
+	},
+	LINK_EXPIRED: {
+		statusCode:400,
+        message : 'This link has expired.',
+        responseType:'LINK_EXPIRED'
+	},
+	ALREADY_ANSWERED: {
+		statusCode:400,
+        message : 'You have already answered this question',
+        responseType:'ALREADY_ANSWERED'
 	},
 };
 
