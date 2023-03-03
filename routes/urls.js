@@ -13,7 +13,7 @@ router.get("/privacy", (req, res) => {
 router.get("/user-response", (req, res) => {
 	QuestionController.userResponse(req.query)
     .then((data) => {
-	  res.render("../views/userResponse.ejs", {data: res});
+	  res.render("../views/userResponse.ejs", {data: data});
     })
     .catch((err) => {
       if (err.isJoi) {

@@ -87,7 +87,7 @@ const getQuestionDetails = async (payloadData) => {
           as: "answers",
         },
       },
-      {$project: {"text":1, "media":1, "userId":1, "answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
+      {$project: {"text":1, "media":1, "userId":1, "isMajority": 1,"answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
     ];
     const question = await questionModel.aggregate(conditions);
     if (!question) {
@@ -235,7 +235,6 @@ const userResponse = async (payloadData) => {
     if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.pid) > -1 ) {
       throw Response.error_msg.ALREADY_ANSWERED;
     }
-    console.log("questionData", questionData)
     return questionData;
   } catch (err) {
     console.log(err);
