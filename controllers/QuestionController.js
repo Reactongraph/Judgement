@@ -38,9 +38,13 @@ const createQuestion = async (payloadData, userData, fileData) => {
       }
 
       // save link expired date
+      // payload.linkExpiredDate = moment().add(
+      //   24,
+      //   "hours"
+      // );
       payload.linkExpiredDate = moment().add(
-        24,
-        "hours"
+        10,
+        "minutes"
       );
 
       // create question
