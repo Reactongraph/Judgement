@@ -179,6 +179,7 @@ const userPreference = async (payloadData, userData) => {
   try {
     const schema = Joi.object().keys({
       questionId: Joi.string().required(),
+      answerId: Joi.string().optional(),
       isMajority:  Joi.boolean().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
@@ -191,6 +192,19 @@ const userPreference = async (payloadData, userData) => {
     if (userData.id != questionData.userId) {
       throw Response.error_msg.implementationError;
     }
+    // if (payload.isMajority) {
+    //   if (!questionData.hasOwnProperty("answerId")) {
+    //     throw Response.error_msg.ANSWER_REQUIRED;
+    //   }
+    //   const answerData = await answerModel.findOne({ _id: payload.answerId });
+    //   if (answerData && answerData.usersAnswered && answerData.usersAnswered.length) {
+    //     for (const contact of answerData.usersAnswered) {
+    //       let contactString = encodeURIComponent(contact);
+    //       const message = `Results are in 🎉 \nAnonymous user has accepted your decision: ${answerData.text}.`
+    //       TWILIO.sendMessage(message, `${contact}`);
+    //     }
+    //   }
+    // }
     
     await questionModel.findOneAndUpdate(
       { _id: payload.questionId},

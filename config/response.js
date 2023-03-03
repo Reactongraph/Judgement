@@ -64,6 +64,12 @@ var error_msg = {
         message : 'Implementation Error.',
         responseType:'IMPLEMENTATION_ERROR'
 	},
+    ANSWER_REQUIRED :{
+		statusCode:400,
+        message : 'Answer Required',
+        responseType:'ANSWER_REQUIRED'
+	},
+
 	LINK_EXPIRED: {
 		statusCode:400,
         message : 'This link has expired.',

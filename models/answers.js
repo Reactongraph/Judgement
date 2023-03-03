@@ -13,6 +13,7 @@ const answerSchema = {
   media: { type: String, default: null },
   questionId: { type: Schema.Types.ObjectId, ref: "questions" },
   count: { type: Number, default: 0 },
+  usersAnswered: { type: Array, default: [] },
 };
 
 const config = {
