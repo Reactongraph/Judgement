@@ -227,7 +227,7 @@ const userResponse = async (payloadData) => {
     if (!questionDetails) {
       throw Response.error_msg.notFound;
     }
-    const questionData = questionDetails[0];
+    var questionData = questionDetails[0];
     if ((questionData.linkExpiredDate && questionData.linkExpiredDate < moment()) || questionData.hasOwnProperty("isMajority")) {
       throw Response.error_msg.LINK_EXPIRED;
     }
@@ -235,6 +235,9 @@ const userResponse = async (payloadData) => {
     if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.pid) > -1 ) {
       throw Response.error_msg.ALREADY_ANSWERED;
     }
+    questionData.s3Url = process.env.S3URL;
+    questionData.baseUrl = process.env.URL;
+    console.log(questionData)
     return questionData;
   } catch (err) {
     console.log(err);

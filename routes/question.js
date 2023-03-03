@@ -67,7 +67,7 @@ router.put("/userVoting", (req, res) => {
 
 /* Update Preference Api*/
 router.put("/userPreference", authentication, (req, res) => {
-  QuestionController.userPreference(req.body)
+  QuestionController.userPreference(req.body, req.user)
     .then((data) => {
       sendResponse.sendSuccessMessage("success", data, res);
     })
