@@ -271,7 +271,7 @@ function getUserContacts(data, question, answerMessage) {
     // TWILIO.sendMessage(message, '+919041823411');
   for (const contact of userContacts) {
     let contactString = encodeURIComponent(contact);
-    const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/user-response?qid=${question._id}&phid=${contactString}`;
+    const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/urls/user-response?qid=${question._id}&phid=${contactString}`;
     TWILIO.sendMessage(message, `${contact}`);
   }
 }
