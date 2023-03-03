@@ -76,7 +76,7 @@
           <li>
             <img src="<%=data.s3Url%><%=data.answers[i].media%>" />
             <h3><%=data.answers[i].text%></h3>
-            <a onclick = "run()"><%=String.fromCharCode(i+65)%></a>
+            <a onclick = "run(`<%=data.answers[i]._id%>`)"><%=String.fromCharCode(i+65)%></a>
           </li>
           <% } %>
         </ul>
@@ -84,28 +84,28 @@
     </div>
   </body>
 </html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>
 	function run(aid) {
-		alert(aid)
 		const queryString = window.location.search;
 		const urlParams = new URLSearchParams(queryString);
-		console.log(urlParams);
-		// var url = '<%=data.baseUrl%>/api/question/userVoting';
-		// var person = new Object();
-        // person.aid = aid;
-        // person.pid = pid;
-		// $.ajax({
-		// 	url: url,
-		// 	type: 'PUT',
-		// 	dataType: 'json',
-		// 	data: person,
-		// 	success: function (data, textStatus, xhr) {
-		// 		console.log(data);
-		// 	},
-		// 	error: function (xhr, textStatus, errorThrown) {
-		// 		console.log('Error in Operation');
-		// 	}
-		// });
+		var url = '<%=data.baseUrl%>/api/question/userVoting';
+		var person = new Object();
+        person.aid = aid;
+        person.phid = urlParams.get('phid');
+        console.log(person);
+		$.ajax({
+			url: url,
+			type: 'PUT',
+			dataType: 'json',
+			data: person,
+			success: function (data, textStatus, xhr) {
+				console.log(data);
+        window.location.replace("<%=data.baseUrl%>/urls/thank-you");
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log('Error in Operation');
+			}
+		});
 	}
-
 </script>

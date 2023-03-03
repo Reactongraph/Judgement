@@ -132,7 +132,7 @@ const userVoting = async (payloadData) => {
   try {
     const schema = Joi.object().keys({
       aid: Joi.string().required(),
-      pid: Joi.string().required(),
+      phid: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
 
@@ -149,7 +149,7 @@ const userVoting = async (payloadData) => {
       throw Response.error_msg.LINK_EXPIRED;
     }
     
-    if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.pid) > -1 ) {
+    if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.phid) > -1 ) {
       throw Response.error_msg.ALREADY_ANSWERED;
     }
     //increase anwer count
@@ -160,7 +160,7 @@ const userVoting = async (payloadData) => {
     );
     await questionModel.findOneAndUpdate(
       { _id: questionData._id},
-      { $push: { "usersAnswered": payload.pid  }, $inc: { userVoteCount: 1 }  },
+      { $push: { "usersAnswered": payload.phid  }, $inc: { userVoteCount: 1 }  },
       { new: true }
     );
     
@@ -208,7 +208,6 @@ const userResponse = async (payloadData) => {
       phid: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
-
     const conditions = [
       {$match: 
         {_id: mongoose.Types.ObjectId(payload.qid)},
@@ -221,7 +220,7 @@ const userResponse = async (payloadData) => {
           as: "answers",
         },
       },
-      {$project: {"text":1, "media":1, "userId":1, "answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
+      {$project: {"text":1, "media":1, "userId":1,"usersAnswered": 1, "answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
     ];
     const questionDetails = await questionModel.aggregate(conditions);
     if (!questionDetails) {
@@ -231,13 +230,11 @@ const userResponse = async (payloadData) => {
     if ((questionData.linkExpiredDate && questionData.linkExpiredDate < moment()) || questionData.hasOwnProperty("isMajority")) {
       throw Response.error_msg.LINK_EXPIRED;
     }
-    
-    if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.pid) > -1 ) {
+    if (questionData.usersAnswered && questionData.usersAnswered.length && questionData.usersAnswered.findIndex(item => item === payload.phid) > -1 ) {
       throw Response.error_msg.ALREADY_ANSWERED;
     }
     questionData.s3Url = process.env.S3URL;
     questionData.baseUrl = process.env.URL;
-    console.log(questionData)
     return questionData;
   } catch (err) {
     console.log(err);
@@ -268,10 +265,13 @@ function getUserContacts(data, question, answerMessage) {
     userContacts.length = 10;
   }
   
-  // TWILIO.sendMessage(message, `+919041823411`);
-  console.log(`${process.env.URL}/urls/user-response?qid=${question._id}&phid=+919041823411`);
+  // let contactString = encodeURIComponent("+919041823411");
+  // const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/urls/user-response?qid=${question._id}&phid=${contactString}`;
+  //   console.log('message', message)
+    // TWILIO.sendMessage(message, '+919041823411');
   for (const contact of userContacts) {
-    const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/user-response?qid=${question._id}&phid=${contact}`;
+    let contactString = encodeURIComponent(contact);
+    const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/user-response?qid=${question._id}&phid=${contactString}`;
     TWILIO.sendMessage(message, `${contact}`);
   }
 }
