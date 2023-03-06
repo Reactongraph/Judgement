@@ -199,6 +199,16 @@ const userPreference = async (payloadData, userData) => {
           TWILIO.sendMessage(message, `${contact}`);
         }
       }
+      const rejectAnswerData = await answerModel.find({ _id: { $nin: [ payload.answerId ] }, questionId: questionData._id });
+      for (const rejectAnswerItem of rejectAnswerData) {
+        if (rejectAnswerItem && rejectAnswerItem.usersAnswered && rejectAnswerItem.usersAnswered.length) {
+          for (const rejectContact of rejectAnswerItem.usersAnswered) {
+            const message = `Results are in 🎉 \nAnonymous user chosen a different option: ${answerData.text}.`
+            TWILIO.sendMessage(message, `${rejectContact}`);
+          }
+        }
+      }
+      
     }
     
     await questionModel.findOneAndUpdate(
