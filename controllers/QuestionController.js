@@ -159,7 +159,7 @@ const userVoting = async (payloadData) => {
     //increase anwer count
     await answerModel.findOneAndUpdate(
       { _id: payload.aid},
-      { $inc: { count: 1 }},
+      { $push: { "usersAnswered": payload.phid  }, $inc: { count: 1 }},
       { new: true }
     );
     await questionModel.findOneAndUpdate(
@@ -192,19 +192,18 @@ const userPreference = async (payloadData, userData) => {
     if (userData.id != questionData.userId) {
       throw Response.error_msg.implementationError;
     }
-    // if (payload.isMajority) {
-    //   if (!questionData.hasOwnProperty("answerId")) {
-    //     throw Response.error_msg.ANSWER_REQUIRED;
-    //   }
-    //   const answerData = await answerModel.findOne({ _id: payload.answerId });
-    //   if (answerData && answerData.usersAnswered && answerData.usersAnswered.length) {
-    //     for (const contact of answerData.usersAnswered) {
-    //       let contactString = encodeURIComponent(contact);
-    //       const message = `Results are in 🎉 \nAnonymous user has accepted your decision: ${answerData.text}.`
-    //       TWILIO.sendMessage(message, `${contact}`);
-    //     }
-    //   }
-    // }
+    if (payload.isMajority) {
+      if (!payload.hasOwnProperty("answerId")) {
+        throw Response.error_msg.ANSWER_REQUIRED;
+      }
+      const answerData = await answerModel.findOne({ _id: payload.answerId });
+      if (answerData && answerData.usersAnswered && answerData.usersAnswered.length) {
+        for (const contact of answerData.usersAnswered) {
+          const message = `Results are in 🎉 \nAnonymous user has accepted your decision: ${answerData.text}.`
+          TWILIO.sendMessage(message, `${contact}`);
+        }
+      }
+    }
     
     await questionModel.findOneAndUpdate(
       { _id: payload.questionId},

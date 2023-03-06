@@ -76,6 +76,8 @@
           <li>
             <%if (data.answers[i].media) {%>
             <img src="<%=data.s3Url%><%=data.answers[i].media%>" />
+            <%}else{%>
+            <img src="<%=data.s3Url%>no-image.png" />
             <%}%>
             <h3><%=data.answers[i].text%></h3>
             <a onclick = "run(`<%=data.answers[i]._id%>`)"><%=String.fromCharCode(i+65)%></a>
