@@ -15,10 +15,10 @@ const register = async (payloadData) => {
       phone: Joi.string().required().min(10).max(15),
       countryCode: Joi.string().required().min(1).max(5),
       password: Joi.string().required().min(6).max(30),
+      deviceId: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     let userData = await userModel.findOne({  $or:[ {'userName':payload.username}, {'phone':payload.phone}] });
-    console.log(userData);
     if (userData) {
       throw Response.error_msg.ALREADY_EXIST;
     }
@@ -51,6 +51,7 @@ const login = async (payloadData) => {
     const schema = Joi.object().keys({
       userName: Joi.string().required(),
       password: Joi.string().required(),
+      deviceId: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     const user = await userModel.findOne({ userName: payload.userName });

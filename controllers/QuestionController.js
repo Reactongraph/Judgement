@@ -237,7 +237,7 @@ const userResponse = async (payloadData) => {
           as: "answers",
         },
       },
-      {$project: {"text":1, "media":1, "userId":1,"usersAnswered": 1, "answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
+      {$project: {"text":1, "media":1, "userId":1,"usersAnswered": 1, "linkExpiredDate": 1, "answers._id": 1,"userVoteCount":1, "answers.text":1, "answers.media":1, "answers.count":1} },
     ];
     const questionDetails = await questionModel.aggregate(conditions);
     if (!questionDetails) {

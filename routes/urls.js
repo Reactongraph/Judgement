@@ -22,7 +22,6 @@ router.get("/link-expired", (req, res) => {
 router.get("/user-response", (req, res) => {
 	QuestionController.userResponse(req.query)
     .then((data) => {
-      console.log("error", data);
 	  res.render("../views/userResponse.ejs", {data: data});
     })
     .catch((err) => {
