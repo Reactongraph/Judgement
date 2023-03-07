@@ -2,6 +2,7 @@ const Jwt = require('jsonwebtoken');
 const response = require('../config/response')
 const privateKey = process.env.JWT_PRIVATE_KEY;
 const userModel = require("../models/users");
+const Response = require('../config/response');
 
 /**
  * Validate user token fetched from headers
@@ -16,8 +17,7 @@ const validateUser = async (req, res, next) => {
       if (req.user && req.user.id) {
         let userData = await userModel.findOne({ _id: req.user.id });
         if( !userData || req.user.deviceId !== userData.deviceId ) {
-            const err = response.error_msg.invalidToken;
-            res.status(err.statusCode).send(err.message);
+            res.send(Response.error_msg.INVALID_TOKEN);
         }
         req.user.syncContacts = userData.syncContacts;
         req.user.userName = userData.userName;
@@ -25,8 +25,7 @@ const validateUser = async (req, res, next) => {
         next();
       }
     } catch (error) {
-        const err = response.error_msg.invalidToken;
-        res.status(err.statusCode).send(err.message);
+        res.send(Response.error_msg.INVALID_TOKEN);
     }
 };
 
@@ -34,8 +33,7 @@ const getTokenFromHeaders = headers => {
     if (headers && headers.authorization) {
         return headers.authorization;
     } else {
-        const err = response.error_msg.invalidToken;
-        res.status(err.statusCode).send(err.message);
+        res.send(Response.error_msg.INVALID_TOKEN);
     }
   };
 

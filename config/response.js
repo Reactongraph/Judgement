@@ -9,10 +9,10 @@ var error_msg = {
         message : 'OTP verified successfully..',
         responseType:'VERIFY_OTP'
 	},
-	invalidToken:{
+	INVALID_TOKEN:{
 		message:"You are not authorized.",
 		statusCode:401,
-		responseType:''
+		responseType:'INVALID_TOKEN'
 	},
 	INVALID_CREDENTIALS:{
 		message: "Username or password is correct.",
