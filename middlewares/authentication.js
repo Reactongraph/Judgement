@@ -15,7 +15,7 @@ const validateUser = async (req, res, next) => {
       req.user = decoded;
       if (req.user && req.user.id) {
         let userData = await userModel.findOne({ _id: req.user.id });
-        if( !userData ) {
+        if( !userData || req.user.deviceId !== userData.deviceId ) {
             const err = response.error_msg.invalidToken;
             res.status(err.statusCode).send(err.message);
         }

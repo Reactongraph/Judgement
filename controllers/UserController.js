@@ -27,6 +27,7 @@ const register = async (payloadData) => {
     let tokenData = {
       id: user._id,
       userName: payload.userName,
+      deviceId: payload.deviceId,
     };
     let token = await Jwt.sign(tokenData, process.env.JWT_PRIVATE_KEY);
     return {
@@ -54,7 +55,12 @@ const login = async (payloadData) => {
       deviceId: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
-    const user = await userModel.findOne({ userName: payload.userName });
+    // const user = await userModel.findOne({ userName: payload.userName });
+    const user = await userModel.findOneAndUpdate(
+      { userName: payload.userName},
+      {deviceId: payload.deviceId},
+      { new: true }
+    );
     const generateHash = await crypto.generateHash(payload.password, Constants.ENCRYPTION_TYPE);
     if (!user || (user.password !== generateHash)) {
       throw Response.error_msg.INVALID_CREDENTIALS;
@@ -62,6 +68,7 @@ const login = async (payloadData) => {
     let tokenData = {
       id: user._id,
       userName: payload.userName,
+      deviceId: payload.deviceId,
     };
     let token = await Jwt.sign(tokenData, process.env.JWT_PRIVATE_KEY);
     return {
@@ -229,8 +236,9 @@ const changePassword = async (payloadData) => {
   }
 };
 
-const logoutUser = async (payloadData) => {
+const logoutUser = async (userData) => {
   try {
+    await userModel.findOneAndUpdate( { _id: userData.id}, {deviceId: null}, { new: true }); 
     return {};
   } catch (err) {
     console.log(err);

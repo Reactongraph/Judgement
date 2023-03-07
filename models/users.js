@@ -15,6 +15,7 @@ const userSchema = {
   userContacts: { type: Array, default: null},
   forgotPasswordOtp: { type: String, default: null},
   isRandomize: { type: Boolean, default: false },
+  deviceId: { type: String, default: null },
   isDeleted: { type: Boolean, default: false },
 };
 
