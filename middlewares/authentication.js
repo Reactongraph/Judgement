@@ -17,7 +17,8 @@ const validateUser = async (req, res, next) => {
       if (req.user && req.user.id) {
         let userData = await userModel.findOne({ _id: req.user.id });
         if( !userData || req.user.deviceId !== userData.deviceId ) {
-            res.send(Response.error_msg.INVALID_TOKEN);
+            const err = Response.error_msg.INVALID_TOKEN;
+            res.status(err.statusCode).send(err);
         }
         req.user.syncContacts = userData.syncContacts;
         req.user.userName = userData.userName;
@@ -25,7 +26,8 @@ const validateUser = async (req, res, next) => {
         next();
       }
     } catch (error) {
-        res.send(Response.error_msg.INVALID_TOKEN);
+        const err = Response.error_msg.INVALID_TOKEN;
+        res.status(err.statusCode).send(err);
     }
 };
 
@@ -33,7 +35,8 @@ const getTokenFromHeaders = headers => {
     if (headers && headers.authorization) {
         return headers.authorization;
     } else {
-        res.send(Response.error_msg.INVALID_TOKEN);
+        const err = Response.error_msg.INVALID_TOKEN;
+        res.status(err.statusCode).send(err);
     }
   };
 
