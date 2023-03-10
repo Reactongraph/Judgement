@@ -174,7 +174,7 @@ const userPreference = async (payloadData, userData) => {
   try {
     const schema = Joi.object().keys({
       questionId: Joi.string().required(),
-      answerId: Joi.string().optional(),
+      answerId: Joi.string().required(),
       isMajority:  Joi.boolean().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
@@ -187,11 +187,8 @@ const userPreference = async (payloadData, userData) => {
     if (userData.id != questionData.userId) {
       throw Response.error_msg.implementationError;
     }
+    const answerData = await answerModel.findOne({ _id: payload.answerId });
     if (payload.isMajority) {
-      if (!payload.hasOwnProperty("answerId")) {
-        throw Response.error_msg.ANSWER_REQUIRED;
-      }
-      const answerData = await answerModel.findOne({ _id: payload.answerId });
       if (answerData && answerData.usersAnswered && answerData.usersAnswered.length) {
         for (const contact of answerData.usersAnswered) {
           const message = `Results are in 🎉 \nAnonymous user has accepted your decision: ${answerData.text}.`
