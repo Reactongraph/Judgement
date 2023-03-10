@@ -16,7 +16,6 @@ const answerModel = require("../models/answers");
 const userModel = require("../models/users");
 const Response = require('../config/response');
 const TWILIO = require('../helpers/twilio');
-const messages = require('../config/messages');
 
 const createQuestion = async (payloadData, userData, fileData) => {
   try {
@@ -287,7 +286,7 @@ function getUserContacts(data, question, answerMessage) {
     userContacts = _.shuffle(userContacts);
     userContacts.length = 10;
   }
-  
+  console.log("userContactssss". userContacts);
   // let contactString = encodeURIComponent("+919041823411");
   // const message = `Hey! I need your help making a quick decision. The link below will open a '${question.text}' question. Let me know what you think I should do and I'll let you know what my final decision is. \n${process.env.URL}/urls/user-response?qid=${question._id}&phid=${contactString}`;
   //   console.log('message', message)
