@@ -55,12 +55,17 @@ const login = async (payloadData) => {
       deviceId: Joi.string().required(),
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
-    // const user = await userModel.findOne({ userName: payload.userName });
-    const user = await userModel.findOneAndUpdate(
+    const user = await userModel.findOne({ userName: payload.userName });
+    if (!user) {
+      throw Response.error_msg.INVALID_CREDENTIALS;
+    }
+    // update device id
+    await userModel.findOneAndUpdate(
       { userName: payload.userName},
       {deviceId: payload.deviceId},
       { new: true }
     );
+
     const generateHash = await crypto.generateHash(payload.password, Constants.ENCRYPTION_TYPE);
     if (!user || (user.password !== generateHash)) {
       throw Response.error_msg.INVALID_CREDENTIALS;

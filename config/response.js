@@ -15,7 +15,7 @@ var error_msg = {
 		responseType:'INVALID_TOKEN'
 	},
 	INVALID_CREDENTIALS:{
-		message: "Username or password is correct.",
+		message: "Username or password is incorrect.",
 		statusCode:400,
 		responseType:'INVALID_CREDENTIALS'
 	},
