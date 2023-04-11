@@ -251,6 +251,24 @@ const logoutUser = async (userData) => {
   }
 };
 
+const deleteUser = async (payloadData)=>{
+  try{
+    const schema = Joi.object().keys({
+      id: Joi.string().required(),
+    });
+    let payload = await commonController.verifyJoiSchema(payloadData, schema);
+    const user = await userModel.findOne({ _id: payload.id});
+    if(!user){
+      throw Response.error_msg.notFound;
+    }else{
+        await userModel.deleteUser({ _id: payload.id});
+    }
+    return user;
+  }catch(err){
+    console.log(err);
+    throw err;
+  }
+}
 module.exports = {
   register: register,
   login: login,
@@ -259,5 +277,6 @@ module.exports = {
   forgotPassword: forgotPassword,
   verifyPasswordOtp: verifyPasswordOtp,
   changePassword: changePassword,
-  logoutUser: logoutUser
+  logoutUser: logoutUser,
+  deleteUser: deleteUser
 };

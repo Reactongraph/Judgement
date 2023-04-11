@@ -126,4 +126,19 @@ router.post("/logout", authentication, (req, res) => {
     });
 });
 
+/* Delete User Api */
+router.delete("/delete/:id", (req, res) => {
+  UserController.deleteUser(req.params)
+    .then((data) => {
+      sendResponse.sendSuccessMessage("User Deleted successfully", data, res);
+    })
+    .catch((err) => {
+      if (err.isJoi) {
+        sendResponse.sendErrorMessage(err.details[0].message, err.name, res);
+      } else {
+        sendResponse.sendErrorMessage(err.message, {}, res);
+      }
+    });
+});
+
 module.exports = router;
