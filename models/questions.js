@@ -80,7 +80,7 @@ const findOneAndUpdate = async function(conditions, selectparams, options) {
  * @return  the json object to be return
  */
 const deleteQuestion = async function(conditions) {
-  return await questionModel.delete(conditions);
+  return await questionModel.deleteMany(conditions);
 };
 
 module.exports = {

@@ -4,6 +4,8 @@ const crypto = require('../helpers/crypto');
 const commonController = require("../helpers/common");
 const Constants = require("../config/constants");
 const userModel = require("../models/users");
+const questionModel=require("../models/questions")
+const answerModel=require("../models/answers")
 const Response = require('../config/response');
 const messages = require('../config/messages');
 const TWILIO = require('../helpers/twilio');
@@ -258,10 +260,20 @@ const deleteUser = async (payloadData)=>{
     });
     let payload = await commonController.verifyJoiSchema(payloadData, schema);
     const user = await userModel.findOne({ _id: payload.id});
+    const question=await questionModel.find({userId:payload.id});
+    const answerId=question.map(el=>el._id);
+    const answers=await answerModel.find({questionId:{$in:answerId}});
+    const questionId=answers.map(el=>el._id);
     if(!user){
       throw Response.error_msg.notFound;
     }else{
         await userModel.deleteUser({ _id: payload.id});
+    }
+    if(question){
+      await questionModel.deleteQuestion({userId:payload.id});
+    }
+    if(answers){
+      await answerModel.deleteanswer({_id:questionId});
     }
     return user;
   }catch(err){

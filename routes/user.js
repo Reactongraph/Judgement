@@ -127,7 +127,7 @@ router.post("/logout", authentication, (req, res) => {
 });
 
 /* Delete User Api */
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id",authentication, (req, res) => {
   UserController.deleteUser(req.params)
     .then((data) => {
       sendResponse.sendSuccessMessage("User Deleted successfully", data, res);

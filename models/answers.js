@@ -67,7 +67,7 @@ const findOneAndUpdate = async function(conditions, selectparams, options) {
  * @return  the json object to be return
  */
 const deleteanswer = async function(conditions) {
-  return await answerModel.delete(conditions);
+  return await answerModel.deleteMany(conditions);
 };
 
 module.exports = {
