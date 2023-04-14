@@ -258,12 +258,15 @@ const deleteUser = async (payloadData)=>{
     const schema = Joi.object().keys({
       id: Joi.string().required(),
     });
-    let payload = await commonController.verifyJoiSchema(payloadData, schema);
+    let answers, questionId;
+    const payload = await commonController.verifyJoiSchema(payloadData, schema);
     const user = await userModel.findOne({ _id: payload.id});
-    const question=await questionModel.find({userId:payload.id});
-    const answerId=question.map(el=>el._id);
-    const answers=await answerModel.find({questionId:{$in:answerId}});
-    const questionId=answers.map(el=>el._id);
+    const question = await questionModel.find({userId:payload.id});
+    const answerIds = question.map(el=>el._id);
+    if(answerIds && answerIds.length){
+      answers = await answerModel.find({questionId:{$in: answerIds}});
+      questionId = answers.map(el=>el._id);
+    }
     if(!user){
       throw Response.error_msg.notFound;
     }else{
