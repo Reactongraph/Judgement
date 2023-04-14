@@ -256,7 +256,7 @@ const logoutUser = async (userData) => {
 const deleteUser = async (payloadData)=>{
   try{
     const schema = Joi.object().keys({
-      id: Joi.string().required(),
+      id: Joi.string().required()
     });
     let answers, questionId;
     const payload = await commonController.verifyJoiSchema(payloadData, schema);
